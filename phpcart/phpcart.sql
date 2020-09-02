@@ -1,110 +1,97 @@
 -- phpMyAdmin SQL Dump
--- version 2.11.7
+-- version 4.5.1
 -- http://www.phpmyadmin.net
 --
--- 主機: localhost
--- 建立日期: Oct 23, 2008, 02:28 PM
--- 伺服器版本: 5.0.51
--- PHP 版本: 5.2.6
+-- 主機: 127.0.0.1
+-- 產生時間： 2016-09-22 10:39:19
+-- 伺服器版本: 10.1.13-MariaDB
+-- PHP 版本： 7.0.8
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- 資料庫: `phpcart`
+-- 資料庫： `phpcart`
 --
 
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `category`
+-- 資料表結構 `category`
 --
 
--- CREATE TABLE IF NOT EXISTS `category` (
---   `categoryid` int(11) unsigned NOT NULL auto_increment,
---   `categoryname` varchar(100) collate utf8_unicode_ci NOT NULL,
---   `categorysort` int(11) unsigned default NULL,
---   PRIMARY KEY  (`categoryid`)
--- ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
+CREATE TABLE `category` (
+  `categoryid` int(11) UNSIGNED NOT NULL,
+  `categoryname` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `categorysort` int(11) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- 列出以下資料庫的數據： `category`
+-- 資料表的匯出資料 `category`
 --
 
--- INSERT INTO `category` (`categoryid`, `categoryname`, `categorysort`) VALUES
--- (1, 'ASUS', 1),
--- (2, 'ACER', 2),
--- (3, 'HP', 3),
--- (4, 'SONY', 4);
+INSERT INTO `category` (`categoryid`, `categoryname`, `categorysort`) VALUES
+(1, 'ASUS', 1),
+(2, 'ACER', 2),
+(3, 'HP', 3),
+(4, 'SONY', 4);
 
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `order`
+-- 資料表結構 `orderdetail`
 --
 
-CREATE TABLE IF NOT EXISTS `order` (
-  `orderid` int(11) unsigned NOT NULL auto_increment,
-  `total` int(11) unsigned default NULL,
-  `deliverfee` int(11) unsigned default NULL,
-  `grandtotal` int(11) unsigned default NULL,
-  `customername` varchar(100) collate utf8_unicode_ci default NULL,
-  `customeremail` varchar(100) collate utf8_unicode_ci default NULL,
-  `customeraddress` varchar(100) collate utf8_unicode_ci default NULL,
-  `customerphone` varchar(100) collate utf8_unicode_ci default NULL,
-  `paytype` enum('ATM匯款','線上刷卡','貨到付款') collate utf8_unicode_ci default 'ATM匯款',
-  PRIMARY KEY  (`orderid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-
---
--- 列出以下資料庫的數據： `order`
---
-
+CREATE TABLE `orderdetail` (
+  `orderdetailid` int(11) UNSIGNED NOT NULL,
+  `orderid` int(11) UNSIGNED DEFAULT NULL,
+  `productid` int(11) UNSIGNED DEFAULT NULL,
+  `productname` varchar(254) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `unitprice` int(11) UNSIGNED DEFAULT NULL,
+  `quantity` int(11) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `orderdetail`
+-- 資料表結構 `orders`
 --
 
-CREATE TABLE IF NOT EXISTS `orderdetail` (
-  `orderdetailid` int(11) unsigned NOT NULL auto_increment,
-  `orderid` int(11) unsigned default NULL,
-  `productid` int(11) unsigned default NULL,
-  `productname` varchar(254) collate utf8_unicode_ci default NULL,
-  `unitprice` int(11) unsigned default NULL,
-  `quantity` int(11) unsigned default NULL,
-  PRIMARY KEY  (`orderdetailid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-
---
--- 列出以下資料庫的數據： `orderdetail`
---
-
+CREATE TABLE `orders` (
+  `orderid` int(11) UNSIGNED NOT NULL,
+  `total` int(11) UNSIGNED DEFAULT NULL,
+  `deliverfee` int(11) UNSIGNED DEFAULT NULL,
+  `grandtotal` int(11) UNSIGNED DEFAULT NULL,
+  `customername` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `customeremail` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `customeraddress` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `customerphone` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `paytype` enum('ATM匯款','線上刷卡','貨到付款') COLLATE utf8_unicode_ci DEFAULT 'ATM匯款'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- 資料表格式： `product`
+-- 資料表結構 `product`
 --
 
-CREATE TABLE IF NOT EXISTS `product` (
-  `productid` int(11) unsigned NOT NULL auto_increment,
-  -- `categoryid` int(11) unsigned NOT NULL,
-  `productname` varchar(100) collate utf8_unicode_ci default NULL,
-  `productprice` int(11) unsigned default NULL,
-  `productimages` varchar(100) collate utf8_unicode_ci default NULL,
-  `description` text collate utf8_unicode_ci,
-  PRIMARY KEY  (`productid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=19 ;
+CREATE TABLE `product` (
+  `productid` int(11) UNSIGNED NOT NULL,
+  `categoryid` int(11) UNSIGNED NOT NULL,
+  `productname` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `productprice` int(11) UNSIGNED DEFAULT NULL,
+  `productimages` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `description` text COLLATE utf8_unicode_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- 列出以下資料庫的數據： `product`
+-- 資料表的匯出資料 `product`
 --
 
 INSERT INTO `product` (`productid`, `categoryid`, `productname`, `productprice`, `productimages`, `description`) VALUES
@@ -127,17 +114,58 @@ INSERT INTO `product` (`productid`, `categoryid`, `productname`, `productprice`,
 (17, 4, 'SONY VAIO VGN-FJ79TP', 39800, 'VGN-FJ79TP.jpg', '◆ IntelPM2G處理器\r\n◆ 14吋寬螢\r\n◆ 80GBSATA大硬碟\r\n◆ DVD雙層燒錄\r\n◆ 專業版XPP'),
 (18, 4, 'SONY VGN-FE25TP', 49800, 'VGN-FE25TP.jpg', '◆ Intel雙核心T2400\r\n◆ 80GBSATA大硬碟\r\n◆ NVIGF7400獨立顯示256MB\r\n◆ 15.4吋2.85KG');
 
+--
+-- 已匯出資料表的索引
+--
 
-CREATE TABLE `member` (
-  `m_id` int(11) NOT NULL,
-  `m_name` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `m_username` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `m_passwd` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `m_level` enum('admin','member','blacklist') COLLATE utf8_unicode_ci NOT NULL,
-  `m_sex` enum('男','女') COLLATE utf8_unicode_ci NOT NULL,
-  `m_birthday` date DEFAULT NULL,
-  `m_email` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `m_address` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `m_phone` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY  (`m_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+--
+-- 資料表索引 `category`
+--
+ALTER TABLE `category`
+  ADD PRIMARY KEY (`categoryid`);
+
+--
+-- 資料表索引 `orderdetail`
+--
+ALTER TABLE `orderdetail`
+  ADD PRIMARY KEY (`orderdetailid`);
+
+--
+-- 資料表索引 `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`orderid`);
+
+--
+-- 資料表索引 `product`
+--
+ALTER TABLE `product`
+  ADD PRIMARY KEY (`productid`);
+
+--
+-- 在匯出的資料表使用 AUTO_INCREMENT
+--
+
+--
+-- 使用資料表 AUTO_INCREMENT `category`
+--
+ALTER TABLE `category`
+  MODIFY `categoryid` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- 使用資料表 AUTO_INCREMENT `orderdetail`
+--
+ALTER TABLE `orderdetail`
+  MODIFY `orderdetailid` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- 使用資料表 AUTO_INCREMENT `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `orderid` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- 使用資料表 AUTO_INCREMENT `product`
+--
+ALTER TABLE `product`
+  MODIFY `productid` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
